@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let timeLeft = 180;
     let username = '';
   
-    initializeGame();
+    beginGame();
   
     // Inizializar el game
-    function initializeGame() {
-      startButton.addEventListener('click', startGame);
-      restartButton.addEventListener('click', restartGame);
+    function beginGame() {
+      startButton.addEventListener('click', start);
+      restartButton.addEventListener('click', restart);
       getUsername();
     }
   
@@ -32,19 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Empezar el game
-    function startGame() {
+    function start() {
       startButton.disabled = true;
       restartButton.disabled = false;
   
-      generateCards();
-      renderCards();
+      generarCartas();
+      ajustarCartas();
   
       // Empezar el temporizador
-      timer = setInterval(updateTimer, 1000);
+      timer = setInterval(actualizarTemporizador, 1000);
     }
   
     // Reiniciar el game
-    function restartGame() {
+    function restart() {
       clearInterval(timer);
       timeLeft = 180;
       score = 0;
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Esta función genera las cartas
-    function generateCards() {
+    function generarCartas() {
       const images = ['image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'image7', 'image8'];
       cards = [...images, ...images]; // Duplicar las imágenes para tener pares
   
@@ -70,12 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Ajustar las imágenes en las cartas
-    function renderCards() {
+    function ajustarCartas() {
       for (let i = 0; i < cards.length; i++) {
         const card = document.createElement('div');
         card.classList.add('card');
         card.dataset.cardIndex = i;
-        card.addEventListener('click', flipCard);
+        card.addEventListener('click', voltearCartas);
   
         const frontFace = document.createElement('div');
         frontFace.classList.add('front-face');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Flipping cards
-    function flipCard() {
+    function voltearCartas() {
       if (!this.classList.contains('flipped') && !this.classList.contains('found') && flippedCards.length < 2) {
         const frontFace = this.querySelector('.front-face');
         const backFace = this.querySelector('.back-face');
@@ -114,13 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
         flippedCards.push(this);
   
         if (flippedCards.length === 2) {
-          setTimeout(checkMatch, 1000);
+          setTimeout(verificarCoincidencia, 1000);
         }
       }
     }
   
     // Buscar coicidencia al flippear las cartas
-    function checkMatch() {
+    function verificarCoincidencia() {
       const card1 = flippedCards[0];
       const card2 = flippedCards[1];
       const index1 = Number(card1.dataset.cardIndex);
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         score += 10;
         scoreElement.textContent = score;
   
-        checkGameCompletion();
+        verificarJuegoCompletado();
       } else {
         setTimeout(() => {
           const frontFace1 = card1.querySelector('.front-face');
@@ -161,22 +161,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Verificar si se completó el juego
-    function checkGameCompletion() {
+    function verificarJuegoCompletado() {
       const foundCards = document.querySelectorAll('.found');
       if (foundCards.length === cards.length) {
         clearInterval(timer);
-        saveScore();
-        displayScores();
+        guardarPuntaje();
+        mostrarPuntaje();
         alert('¡Felicidades! Has completado el juego.');
       }
     }
   
     // Guardar la puntuación en el localstorage
-    function saveScore() {
+    function guardarPuntaje() {
       const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
       const playerScore = {
         username: username,
-        score: calculateScore(),
+        score: calcularPuntaje(),
       };
       highScores.push(playerScore);
       highScores.sort((a, b) => b.score - a.score);
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     // Puntuación del jugador
-    function calculateScore() {
+    function calcularPuntaje() {
     const remainingTime = Number(timerElement.textContent);
     const totalTime = 180; // Tiempo total del juego en segundos
     const maxScore = 100; // Puntuación máxima
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
     // Leaderboard
-    function displayScores() {
+    function mostrarPuntaje() {
       const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
       const tbody = document.querySelector('#scoreboard tbody');
       tbody.innerHTML = '';
@@ -209,17 +209,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   
+    
     // Actualizar el temporizador
-    function updateTimer() {
+    function actualizarTemporizador() {
       timeLeft--;
       timerElement.textContent = timeLeft;
   
       if (timeLeft === 0) {
         clearInterval(timer);
-        saveScore();
-        displayScores();
+        guardarPuntaje();
+        mostrarPuntaje();
         alert('¡Se acabó el tiempo! Inténtalo de nuevo.');
-        restartGame();
+        restart();
       }
     }
   });  
