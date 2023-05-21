@@ -36,7 +36,7 @@ body {
   /* Tablero de juego */
   #game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 100px);
     grid-gap: 5px;
     justify-content: center;
     margin-top: 20px;
@@ -107,7 +107,7 @@ body {
   
     #game-board {
       margin-top: 10px;
-      grid-template-columns: repeat(4, 100px);
+      grid-template-columns: repeat(2, 1fr);
     }
   
     .card {
