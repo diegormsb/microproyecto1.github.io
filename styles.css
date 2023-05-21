@@ -1,0 +1,133 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  h3 {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #FFB26B;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Tablero de juego */
+  #game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-gap: 5px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .card {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: #FFD56F;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .card .card-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+  }
+  
+  .front-face,
+  .back-face {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
+  
+  /* Tabla de puntuaciones */
+  #scoreboard {
+    margin-top: 30px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th,
+  table td {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  table th {
+    background-color: #FFB26B;
+    color: white;
+  }
+  
+  /* Estilos del temporizador y la puntuación */
+  #timer,
+  #score {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  /* Otros estilos */
+  @media screen and (max-width: 600px) {
+    main {
+      padding: 10px;
+    }
+  
+    #game-board {
+      margin-top: 10px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .card {
+      width: 80px;
+      height: 80px;
+    }
+  
+    #scoreboard {
+      margin-top: 20px;
+    }
+  
+    table th,
+    table td {
+      padding: 5px;
+      font-size: 14px;
+    }
+  
+    #timer,
+    #score {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  }  
